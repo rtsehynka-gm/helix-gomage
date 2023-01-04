@@ -25,7 +25,6 @@ export default async function decorate(block) {
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
-
     // decorate nav DOM
     const nav = document.createElement('nav');
     nav.innerHTML = html;

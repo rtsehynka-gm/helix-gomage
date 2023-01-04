@@ -26,7 +26,7 @@ export function sampleRUM(checkpoint, data = {}) {
       sampleRUM[dfnname] = fn;
       sampleRUM.defer
         .filter(({ fnname }) => dfnname === fnname)
-        .forEach(({ fnname, args }) => sampleRUM[fnname](...args));
+        .forEach(({ fnname, args }) =>{console.log(fnname); sampleRUM[fnname](...args)} );
     });
   sampleRUM.on = (chkpnt, fn) => { sampleRUM.cases[chkpnt] = fn; };
   defer('observe');
@@ -357,6 +357,7 @@ export async function loadBlock(block) {
           try {
             const mod = await import(`../blocks/${blockName}/${blockName}.js`);
             if (mod.default) {
+              console.log(blockName);
               await mod.default(block);
             }
           } catch (error) {
@@ -542,6 +543,17 @@ export function loadFooter(footer) {
   footer.append(footerBlock);
   decorateBlock(footerBlock);
   return loadBlock(footerBlock);
+}
+
+/**
+ * loads a block named 'footer' into footer
+ */
+export function loadTest(test) {
+  const testBlock = buildBlock('test', '');
+  test.append(testBlock);
+
+  decorateBlock(testBlock);
+  return loadBlock(testBlock);
 }
 
 /**
